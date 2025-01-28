@@ -4,6 +4,16 @@ import NavigationBar from "./NavigationBar";
 import DateRangeIcon from "@mui/icons-material/DateRange";
 import { useNavigate } from "react-router-dom";
 
+// Import page components
+import VenuesPage from "./VenuesPage";
+import HairPage from "./HairPage";
+import MakeupPage from "./MakeupPage";
+import PhotographersPage from "./PhotographersPage";
+import MusicPage from "./MusicPage";
+import FloristPage from "./FloristPage";
+import DresserPage from "./DresserPage";
+import PlannerPage from "./PlannerPage";
+
 export default function NewPage() {
   const [selectedDate, setSelectedDate] = React.useState(localStorage.getItem("selectedDate") || "Select a date");
   const [selectedPage, setSelectedPage] = React.useState("home");
@@ -16,23 +26,27 @@ export default function NewPage() {
   const renderContent = () => {
     switch (selectedPage) {
       case "venues":
-        return <Typography variant="h3">Welcome to the Venues Page</Typography>;
+        return <VenuesPage />;
       case "hair":
-        return <Typography variant="h3">Welcome to the Hair Page</Typography>;
+        return <HairPage />;
       case "makeup":
-        return <Typography variant="h3">Welcome to the Makeup Page</Typography>;
+        return <MakeupPage />;
       case "photographers":
-        return <Typography variant="h3">Welcome to the Photographers Page</Typography>;
+        return <PhotographersPage />;
       case "music":
-        return <Typography variant="h3">Welcome to the Music Page</Typography>;
+        return <MusicPage />;
       case "florist":
-        return <Typography variant="h3">Welcome to the Florist Page</Typography>;
+        return <FloristPage />;
       case "dresser":
-        return <Typography variant="h3">Welcome to the Dresser Page</Typography>;
+        return <DresserPage />;
       case "planner":
-        return <Typography variant="h3">Welcome to the Planner Page</Typography>;
+        return <PlannerPage />;
       default:
-        return <Typography variant="h3">Welcome to the Home Page</Typography>;
+        return (
+          <Typography variant="h3" align="center">
+            Welcome to the Home Page
+          </Typography>
+        );
     }
   };
 
@@ -70,3 +84,4 @@ export default function NewPage() {
     </>
   );
 }
+
