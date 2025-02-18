@@ -6,7 +6,7 @@ import NavigationBar from "./NavigationBar";
 export default function ShoppingCartPage() {
   return (
     <>
-      <NavigationBar />
+      {/*<NavigationBar activePage={0} />*/}
       <Box
         sx={{
           display: "flex",

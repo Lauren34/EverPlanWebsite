@@ -1,8 +1,7 @@
 import * as React from "react";
-import { Box, Grid, Card, CardContent, Typography } from "@mui/material";
+import { Box, Grid, Card, CardContent, Typography, Modal, Button } from "@mui/material";
 
 export default function FloristPage() {
-  // Example array of florist names and descriptions
   const florists = [
     { title: "Florist 1", description: "Description 1" },
     { title: "Florist 2", description: "Description 2" },
@@ -21,53 +20,106 @@ export default function FloristPage() {
     { title: "Florist 15", description: "Description 15" },
   ];
 
+  // State for selected florist
+  const [selectedFlorist, setSelectedFlorist] = React.useState<any | null>(null);
+
+  const handleOpen = (florist: any) => {
+    setSelectedFlorist(florist);
+  };
+
+  const handleClose = () => {
+    setSelectedFlorist(null);
+  };
+
   return (
     <Box
       sx={{
         width: "100%",
         minHeight: "100vh",
-        backgroundColor: "#f5f5f5",
-        padding: 4,
+        backgroundColor: "#F5ECE3", // Keeping the same soft beige background
+        padding: 2,
+        boxSizing: "border-box",
       }}
     >
       {/* Header */}
       <Typography
         variant="h4"
-        sx={{ fontWeight: "bold", marginBottom: 3, textAlign: "center" }}
+        sx={{
+          fontWeight: "bold",
+          marginBottom: 3,
+          textAlign: "center",
+          fontFamily: "'Playfair Display', serif",
+          color: "#6B4F4F",
+        }}
       >
         Explore Florists
       </Typography>
 
-      {/* Grid Layout for Florists */}
-      <Grid container spacing={4}>
-        {/* Dynamically generate each florist card */}
+      {/* Grid Layout for Florist Cards */}
+      <Grid container spacing={2} sx={{ justifyContent: "center" }}>
         {florists.map((florist, index) => (
-          <Grid item xs={12} sm={6} md={4} key={index}>
+          <Grid item xs={6} key={index}>
             <Card
               sx={{
-                borderRadius: 6, // Less circular boxes
+                borderRadius: 6,
                 boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
                 overflow: "hidden",
-                backgroundColor: "transparent", // Transparent background for the card
+                backgroundColor: "transparent",
+                display: "flex",
+                flexDirection: "column",
+                height: "100%",
               }}
+              onClick={() => handleOpen(florist)} // Open modal on click
             >
-              {/* Placeholder Image */}
+              {/* Image Placeholder */}
               <Box
                 sx={{
-                  height: 150, // Height for the blue section (or an image section)
-                  backgroundColor: "#d0e7ff", // Placeholder color for the image section
+                  width: "100%",
+                  aspectRatio: "4 / 3",
+                  backgroundColor: "#d0e7ff", // Same blue placeholder as VenuesPage
                 }}
               />
-              {/* White part: Shorter content section */}
+              {/* White content section */}
               <CardContent
                 sx={{
-                  paddingTop: 2, // Reduced padding to make the content area shorter
+                  paddingTop: 2,
+                  backgroundColor: "#fff",
+                  height: "calc(1 / 6 * 100%)",
+                  marginTop: "auto",
+                  flexShrink: 0,
+                  flexGrow: 0,
                 }}
               >
-                <Typography variant="h6" fontWeight="bold">
+                <Typography
+                  variant="h6"
+                  sx={{
+                    fontWeight: "bold",
+                    fontSize: "calc(1.2vw + 0.8rem)",
+                    textAlign: "center",
+                    lineHeight: 1.2,
+                    overflow: "hidden",
+                    whiteSpace: "nowrap",
+                    textOverflow: "ellipsis",
+                    fontFamily: "'Playfair Display', serif",
+                    color: "#6B4F4F",
+                  }}
+                >
                   {florist.title}
                 </Typography>
-                <Typography variant="body2" color="text.secondary">
+                <Typography
+                  variant="body2"
+                  color="text.secondary"
+                  sx={{
+                    fontSize: "calc(0.8vw + 0.6rem)",
+                    textAlign: "center",
+                    lineHeight: 1,
+                    overflow: "hidden",
+                    whiteSpace: "nowrap",
+                    textOverflow: "ellipsis",
+                    marginTop: 1,
+                    fontFamily: "'Roboto', sans-serif",
+                  }}
+                >
                   {florist.description}
                 </Typography>
               </CardContent>
@@ -75,6 +127,75 @@ export default function FloristPage() {
           </Grid>
         ))}
       </Grid>
+
+      {/* Modal for displaying florist details */}
+      <Modal
+        open={!!selectedFlorist}
+        onClose={handleClose}
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <Box
+          sx={{
+            width: "85%",
+            backgroundColor: "white",
+            padding: 3,
+            borderRadius: 2,
+            height: "40%",
+            overflowY: "auto",
+            position: "relative",
+          }}
+        >
+          <Button
+            onClick={handleClose}
+            sx={{
+              position: "absolute",
+              top: 10,
+              right: 10,
+              fontSize: "1.5rem",
+              backgroundColor: "transparent",
+              color: "black",
+              border: "none",
+              cursor: "pointer",
+            }}
+          >
+            X
+          </Button>
+          <Typography variant="h4" sx={{ fontWeight: "bold" }}>
+            {selectedFlorist?.title}
+          </Typography>
+          {/* Description displayed in the modal */}
+          <Typography variant="body1" sx={{ marginBottom: 2 }}>
+            {selectedFlorist?.description}
+          </Typography>
+
+          {/* Book Button moved to bottom-right corner */}
+          <Box
+            sx={{
+              position: "absolute",
+              bottom: 10,
+              right: 10,
+            }}
+          >
+            <Button
+              variant="contained"
+              sx={{
+                backgroundColor: "#F7C5AD", // Custom button color
+                color: "#000", // Ensures the text is visible
+                '&:hover': {
+                  backgroundColor: "#f7b59b", // Slightly darker hover color
+                },
+                padding: "8px 20px", // Smaller button
+              }}
+            >
+              Book
+            </Button>
+          </Box>
+        </Box>
+      </Modal>
     </Box>
   );
 }

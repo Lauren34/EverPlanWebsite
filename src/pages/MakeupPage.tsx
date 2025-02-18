@@ -2,13 +2,7 @@ import * as React from "react";
 import { Box, Typography } from "@mui/material";
 
 export default function MakeupPage() {
-  const days = [
-    { day: "MON", text: "Available from 9 AM - 6 PM" },
-    { day: "TUE", text: "Available from 10 AM - 5 PM" },
-    { day: "WED", text: "Fully booked" },
-    { day: "THU", text: "Available from 12 PM - 8 PM" },
-    { day: "FRI", text: "Available from 9 AM - 4 PM" },
-  ];
+  const days = ["MON", "TUE", "WED", "THU", "FRI"];
 
   return (
     <Box
@@ -17,16 +11,36 @@ export default function MakeupPage() {
         minHeight: "100vh",
         display: "flex",
         flexDirection: "column",
-        backgroundColor: "#FDF5E6", // Light beige background
-        padding: 4,
+        alignItems: "center",
+        justifyContent: "center", // Centers content vertically
+        padding: { xs: 2, sm: 4 },
+        position: "relative",
+        overflow: "hidden", // Prevents content from overflowing
       }}
     >
+      {/* Fullscreen Background Image */}
       <Box
         sx={{
-          width: "100%",
-          maxWidth: "600px",
-          margin: "0 auto",
-          backgroundColor: "transparent",
+          position: "fixed",
+          top: 0,
+          left: 0,
+          width: "100vw",
+          height: "100vh",
+          backgroundImage: "url('/Background15.jpg')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundAttachment: "fixed",
+          zIndex: -1,
+        }}
+      />
+
+      {/* Centered Content */}
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          textAlign: "center", // Centers text
         }}
       >
         <Typography
@@ -34,8 +48,8 @@ export default function MakeupPage() {
           sx={{
             fontFamily: "'Playfair Display', serif",
             fontWeight: 700,
-            textAlign: "center",
-            marginBottom: 2,
+            marginBottom: { xs: 2, sm: 3 },
+            fontSize: { xs: "1.8rem", sm: "2.5rem" },
             color: "#6B4F4F",
           }}
         >
@@ -45,67 +59,49 @@ export default function MakeupPage() {
           variant="subtitle1"
           sx={{
             fontFamily: "'Playfair Display', serif",
-            textAlign: "center",
-            marginBottom: 4,
+            marginBottom: { xs: 3, sm: 4 },
+            fontSize: { xs: "1rem", sm: "1.2rem" },
             color: "#6B4F4F",
           }}
         >
-          Book Your Slot Today
+          Book Now
         </Typography>
-        {days.map((item, index) => (
+        {days.map((day, index) => (
           <Box
             key={index}
             sx={{
+              width: "100px", // Button size
+              height: "50px",
+              backgroundColor: "#BBAFA2",
+              color: "white",
               display: "flex",
               alignItems: "center",
-              marginBottom: 3,
+              justifyContent: "center",
+              borderRadius: 4,
+              fontWeight: "bold",
+              textAlign: "center",
+              marginBottom: 2,
+              cursor: "pointer",
+              boxShadow: "0 2px 4px rgba(0, 0, 0, 0.2)", // Button shadow effect
+              transition: "0.3s",
+              "&:hover": {
+                backgroundColor: "#A89C8C",
+              },
             }}
           >
-            {/* Day Box */}
-            <Box
+            <Typography
+              variant="h6"
               sx={{
-                width: 80,
-                height: 60,
-                backgroundColor: "#B89C94", // Soft neutral for the day box
-                color: "white",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                borderRadius: 2,
-                fontWeight: "bold",
-                marginRight: 2,
+                fontFamily: "'Roboto', sans-serif",
+                fontWeight: 700,
+                fontSize: { xs: "1rem", sm: "1.2rem" },
               }}
             >
-              {item.day}
-            </Box>
-            {/* Appointment Box */}
-            <Box
-              sx={{
-                flex: 1,
-                height: 60,
-                backgroundColor: "white",
-                borderRadius: 2,
-                boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
-                display: "flex",
-                alignItems: "center",
-                paddingLeft: 2,
-              }}
-            >
-              <Typography
-                variant="body1"
-                sx={{
-                  fontFamily: "'Roboto', sans-serif",
-                  fontWeight: 400,
-                  color: "#333",
-                }}
-              >
-                {item.text}
-              </Typography>
-            </Box>
+              {day}
+            </Typography>
           </Box>
         ))}
       </Box>
     </Box>
   );
 }
-

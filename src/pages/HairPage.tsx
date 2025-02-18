@@ -1,14 +1,8 @@
 import * as React from "react";
 import { Box, Typography } from "@mui/material";
 
-export default function AppointmentPage() {
-  const days = [
-    { day: "MON", text: "Available from 9 AM - 5 PM" },
-    { day: "TUE", text: "Available from 10 AM - 4 PM" },
-    { day: "WED", text: "Fully booked" },
-    { day: "THU", text: "Available from 12 PM - 6 PM" },
-    { day: "FRI", text: "Available from 9 AM - 3 PM" },
-  ];
+export default function HairPage() {
+  const days = ["MON", "TUE", "WED", "THU", "FRI"];
 
   return (
     <Box
@@ -17,16 +11,36 @@ export default function AppointmentPage() {
         minHeight: "100vh",
         display: "flex",
         flexDirection: "column",
-        backgroundColor: "#F5ECE3", // Soft beige background
-        padding: 4,
+        alignItems: "center",
+        justifyContent: "center", // Centers content vertically
+        padding: { xs: 2, sm: 4 },
+        position: "relative",
+        overflow: "hidden",
       }}
     >
+      {/* Fullscreen Background Image */}
       <Box
         sx={{
-          width: "100%",
-          maxWidth: "600px",
-          margin: "0 auto",
-          backgroundColor: "transparent",
+          position: "fixed",
+          top: 0,
+          left: 0,
+          width: "100vw",
+          height: "100vh",
+          backgroundImage: "url('/Background15.jpg')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundAttachment: "fixed",
+          zIndex: -1,
+        }}
+      />
+
+      {/* Centered Content */}
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          textAlign: "center", // Centers text
         }}
       >
         <Typography
@@ -34,74 +48,57 @@ export default function AppointmentPage() {
           sx={{
             fontFamily: "'Playfair Display', serif",
             fontWeight: 700,
-            textAlign: "center",
-            marginBottom: 2,
+            marginBottom: { xs: 2, sm: 3 },
+            fontSize: { xs: "1.8rem", sm: "2.5rem" },
             color: "#6B4F4F",
           }}
         >
-          Available Appointments
+          Available Hair Appointments
         </Typography>
         <Typography
           variant="subtitle1"
           sx={{
             fontFamily: "'Playfair Display', serif",
-            textAlign: "center",
-            marginBottom: 4,
+            marginBottom: { xs: 3, sm: 4 },
+            fontSize: { xs: "1rem", sm: "1.2rem" },
             color: "#6B4F4F",
           }}
         >
           Book Now
         </Typography>
-        {days.map((item, index) => (
+        {days.map((day, index) => (
           <Box
             key={index}
             sx={{
+              width: "100px", // Button size
+              height: "50px",
+              backgroundColor: "#BBAFA2",
+              color: "white",
               display: "flex",
               alignItems: "center",
-              marginBottom: 3,
+              justifyContent: "center",
+              borderRadius: 4,
+              fontWeight: "bold",
+              textAlign: "center",
+              marginBottom: 2,
+              cursor: "pointer",
+              boxShadow: "0 2px 4px rgba(0, 0, 0, 0.2)", // Button shadow effect
+              transition: "0.3s",
+              "&:hover": {
+                backgroundColor: "#A89C8C",
+              },
             }}
           >
-            {/* Day Box */}
-            <Box
+            <Typography
+              variant="h6"
               sx={{
-                width: 80,
-                height: 60,
-                backgroundColor: "#BBAFA2", // Brownish color for the day box
-                color: "white",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                borderRadius: 2,
-                fontWeight: "bold",
-                marginRight: 2,
+                fontFamily: "'Roboto', sans-serif",
+                fontWeight: 700,
+                fontSize: { xs: "1rem", sm: "1.2rem" },
               }}
             >
-              {item.day}
-            </Box>
-            {/* Appointment Box */}
-            <Box
-              sx={{
-                flex: 1,
-                height: 60,
-                backgroundColor: "white",
-                borderRadius: 2,
-                boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
-                display: "flex",
-                alignItems: "center",
-                paddingLeft: 2,
-              }}
-            >
-              <Typography
-                variant="body1"
-                sx={{
-                  fontFamily: "'Roboto', sans-serif",
-                  fontWeight: 400,
-                  color: "#333",
-                }}
-              >
-                {item.text}
-              </Typography>
-            </Box>
+              {day}
+            </Typography>
           </Box>
         ))}
       </Box>

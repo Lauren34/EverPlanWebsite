@@ -1,11 +1,10 @@
 import * as React from "react";
-import { Box, Typography, Button } from "@mui/material";
+import { Box } from "@mui/material";
+import { useSwipeable } from "react-swipeable";
 import NavigationBar from "./NavigationBar";
-import DateRangeIcon from "@mui/icons-material/DateRange";
-import { useNavigate } from "react-router-dom";
-
-// Import page components
+import HomePage from "./HomePage";
 import VenuesPage from "./VenuesPage";
+import CaterersPage from "./CaterersPage";  // Import Caterers Page
 import HairPage from "./HairPage";
 import MakeupPage from "./MakeupPage";
 import PhotographersPage from "./PhotographersPage";
@@ -15,73 +14,113 @@ import DresserPage from "./DresserPage";
 import PlannerPage from "./PlannerPage";
 
 export default function NewPage() {
-  const [selectedDate, setSelectedDate] = React.useState(localStorage.getItem("selectedDate") || "Select a date");
-  const [selectedPage, setSelectedPage] = React.useState("home");
-  const navigate = useNavigate();
+  const [activePage, setActivePage] = React.useState(0);
 
-  const handleChangeDate = () => {
-    navigate("/calendar"); // Navigate to the calendar page
+  // Handle page changes from the NavigationBar by page name (string)
+  const handlePageChange = (page: string) => {
+    switch (page) {
+      case "home":
+        setActivePage(0);
+        break;
+      case "venues":
+        setActivePage(1);
+        break;
+      case "caterers":  // Added Caterers case
+        setActivePage(2);
+        break;
+      case "hair":
+        setActivePage(3);
+        break;
+      case "makeup":
+        setActivePage(4);
+        break;
+      case "photographers":
+        setActivePage(5);
+        break;
+      case "music":
+        setActivePage(6);
+        break;
+      case "florist":
+        setActivePage(7);
+        break;
+      case "dresser":
+        setActivePage(8);
+        break;
+      case "planner":
+        setActivePage(9);
+        break;
+      default:
+        setActivePage(0); // Default to home
+    }
+
+    // Scroll to the top of the page
+    window.scrollTo(0, 0);
   };
 
+  // Handle home icon click event
+  const handleHomeIconClick = () => {
+    setActivePage(0);  // Set active page to Home when the Home icon is clicked
+    window.scrollTo(0, 0);  // Scroll to the top
+  };
+
+  // Setup swipe functionality
+  const handlers = useSwipeable({
+    onSwipedLeft: () => {
+      if (activePage < 9) {  // Adjusted max index for new tab
+        setActivePage(activePage + 1); // Swipe left to go forward in the navbar
+      }
+    },
+    onSwipedRight: () => {
+      if (activePage > 0) {
+        setActivePage(activePage - 1); // Swipe right to go backward in the navbar
+      }
+    },
+    trackMouse: true,  // Optional: enables mouse swipe on desktop
+  });
+
+  // Render the appropriate content based on the activePage
   const renderContent = () => {
-    switch (selectedPage) {
-      case "venues":
+    switch (activePage) {
+      case 1:
         return <VenuesPage />;
-      case "hair":
+      case 2:
+        return <CaterersPage />;  // Render CaterersPage
+      case 3:
         return <HairPage />;
-      case "makeup":
+      case 4:
         return <MakeupPage />;
-      case "photographers":
+      case 5:
         return <PhotographersPage />;
-      case "music":
+      case 6:
         return <MusicPage />;
-      case "florist":
+      case 7:
         return <FloristPage />;
-      case "dresser":
+      case 8:
         return <DresserPage />;
-      case "planner":
+      case 9:
         return <PlannerPage />;
+      case 0: // HomePage is the default when the app is loaded
       default:
-        return (
-          <Typography variant="h3" align="center">
-            Welcome to the Home Page
-          </Typography>
-        );
+        return <HomePage onSelect={handlePageChange} />;
     }
   };
 
   return (
     <>
-      {/* Navigation Bar */}
-      <NavigationBar onSelect={setSelectedPage} />
-
-      {/* Selected Date Display */}
+      <NavigationBar onSelect={handlePageChange} activePage={activePage} onHomeIconClick={handleHomeIconClick} />
+      {/* Main content wrapped with paddingTop */}
       <Box
+        {...handlers}  // Add swipe handlers to the content container
         sx={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          marginTop: 2,
+          padding: 4,
+          paddingBottom: "60px",
+          paddingTop: "80px",
+          minHeight: "calc(100vh - 60px)", // Adjust for the navbar height
+          overflowY: "auto",  // Allow scrolling within this container
         }}
       >
-        <Typography variant="body1" fontWeight="bold">
-          Selected Date: {selectedDate}
-        </Typography>
-        <Button
-          startIcon={<DateRangeIcon />}
-          sx={{
-            marginLeft: 1,
-            textTransform: "capitalize",
-          }}
-          onClick={handleChangeDate}
-        >
-          Change
-        </Button>
+        {renderContent()} {/* Content rendered here based on active page */}
       </Box>
-
-      {/* Dynamic Content */}
-      <Box sx={{ padding: 4 }}>{renderContent()}</Box>
     </>
   );
 }
-
