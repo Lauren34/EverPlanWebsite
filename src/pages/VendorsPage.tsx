@@ -29,7 +29,7 @@ const VendorsPage: React.FC = () => {
           const vendor = await response.json();
           setVendorData({
             vendorName: vendor.vendorName,
-            vendorType: vendor.vendorType.name, // Assuming vendorType is an object with 'name'
+            vendorType: vendor.vendortype.vendortypename, // Assuming vendorType is an object with 'name'
             description: vendor.description,
             pricing: vendor.pricing,
             instagramLink: vendor.instagramLink,

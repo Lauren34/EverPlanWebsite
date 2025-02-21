@@ -1,7 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm";
 import { Vendor } from "./Vendor";
 
-@Entity("vendortype")  // Explicitly specify the table name as lowercase
+@Entity("vendortype")
 export class VendorType {
   @PrimaryGeneratedColumn()
   vendortypeid!: number;
@@ -16,4 +16,3 @@ export class VendorType {
   @OneToMany(() => Vendor, (vendor) => vendor.vendortype)
   vendors!: Vendor[];
 }
-

@@ -10,7 +10,7 @@ export const AppDataSource = new DataSource({
     username: process.env.DB_USER || "postgres",
     password: process.env.DB_PASSWORD || "Everplan03!",
     database: process.env.DB_NAME || "Everplan",
-    synchronize: true, // Auto-creates tables
+    synchronize: false, // Auto-creates tables
     logging: false,
     entities: ["src/entities/*.ts"],
 });
